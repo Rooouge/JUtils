@@ -15,15 +15,6 @@ public class JDates {
 	}
 	
 	/**
-	 * Returns a new {@link SimpleDateFormat} with the specified pattern
-	 * @param pattern the pattern you want
-	 * @return 
-	 */
-	public static SimpleDateFormat sdf(String pattern) {
-		return new SimpleDateFormat(pattern);
-	}
-	
-	/**
 	 * Gets field value for current date (" new Date(); ")
 	 * @param field the field you want to get the value (use Calendar class fields)
 	 * @return the value of the field

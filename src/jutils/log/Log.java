@@ -8,7 +8,7 @@ public class Log {
 
 	
 	private static void log(PrintStream stream, String tag, String msg) {
-		stream.println(format(tag, msg));
+		stream.print(format(tag, msg));
 	}
 	
 	private static String timestamp() {
@@ -25,16 +25,16 @@ public class Log {
 	}
 	
 	private static String format(String tag, String msg) {
-		return timestamp() + " [" + tag + "]\t" + msg + "\n";
+		return timestamp() + " [" + tag + "]\t" + msg;
 	}
 	
 	/**
-	 * Logs on the specified level
+	 * Logs a new line on the specified level
 	 * @param level the level where to log
 	 * @param msg the message to log
 	 */
-	public static void log(LogLevel level, String msg) {
-		log(level.getStream(), level.getTag(), msg);
+	public static void println(LogLevel level, String msg) {
+		log(level.getStream(), level.getTag(), msg + "\n");
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class Log {
 	 * @param msg the message to log
 	 */
 	public static void info(String msg) {
-		log(LogLevel.INFO, msg);
+		println(LogLevel.INFO, msg);
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class Log {
 	 * @param msg the message to log
 	 */
 	public static void system(String msg) {
-		log(LogLevel.SYSTEM, msg);
+		println(LogLevel.SYSTEM, msg);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class Log {
 	 * @param msg the message to log
 	 */
 	public static void error(String msg) {
-		log(LogLevel.ERROR, msg);
+		println(LogLevel.ERROR, msg);
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class Log {
 	 * @param msg the message to log
 	 */
 	public static void database(String msg) {
-		log(LogLevel.DATABASE, msg);
+		println(LogLevel.DATABASE, msg);
 	}
 	
 }

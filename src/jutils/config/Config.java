@@ -25,7 +25,6 @@ public class Config {
 		
 		
 		File appDir = new File(System.getProperty("user.dir"));
-		Log.info("App: " + appDir);
 		file = searchFile(appDir);
 		
 		if(file != null)
@@ -46,9 +45,6 @@ public class Config {
 	
 	private File searchFile(File appDir) {
 		File f = new File(appDir, appDir.getName() + ".config");
-		
-		Log.info(f.getAbsolutePath());
-		Log.info("" + (f == null));
 		
 		if(f == null || !f.exists())
 			return null;

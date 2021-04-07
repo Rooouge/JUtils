@@ -45,7 +45,7 @@ public class Config {
 	
 	
 	private File searchFile(String appName) {
-		File f = new File(appName + ".properties");
+		File f = new File(appName + ".config");
 		
 		if(file == null || !file.exists())
 			return null;

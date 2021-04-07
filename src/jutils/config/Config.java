@@ -24,14 +24,14 @@ public class Config {
 		separator = ": ";
 		
 		
-		String appName = new File(System.getProperty("user.dir")).getName();
-		Log.info("App: " + appName);
-		file = searchFile(appName);
+		File appDir = new File(System.getProperty("user.dir"));
+		Log.info("App: " + appDir);
+		file = searchFile(appDir);
 		
 		if(file != null)
 			parseConfigFile();
 		else
-			Log.info("Missing config file for current project (" + appName + ")");
+			Log.info("Missing config file for current project (" + appDir + ")");
 	}
 	
 	private static Config getInstance() {
@@ -44,11 +44,16 @@ public class Config {
 	
 	
 	
-	private File searchFile(String appName) {
-		File f = new File(appName + ".config");
+	private File searchFile(File appDir) {
+		File f = new File(appDir, appDir.getName() + ".config");
 		
-		if(file == null || !file.exists())
+		Log.info(f.getAbsolutePath());
+		Log.info("" + (f == null));
+		
+		if(f == null || !f.exists())
 			return null;
+		
+		
 		
 		return f;
 	}

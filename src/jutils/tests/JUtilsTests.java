@@ -1,5 +1,6 @@
 package jutils.tests;
 
+import jutils.config.Config;
 import jutils.log.Log;
 
 public class JUtilsTests {
@@ -10,6 +11,6 @@ public class JUtilsTests {
 //		LogLevel test = new LogLevel("TEST", System.out);
 //		Log.println(test, "Test tag: " + test.getTag());
 		
-//		Log.info(Config.getValue("TEST"));
+		Log.info(Config.getValue("TEST"));
 	}
 }

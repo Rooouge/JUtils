@@ -8,6 +8,8 @@ public class Colors {
 	public static final Color GRAY_48 = gray(48);
 	public static final Color GRAY_64 = gray(64);
 	
+	public static final Color CYAN = new Color(0, 100, 160);
+	
 	
 	public static Color red(int amount) {
 		return new Color(amount, 0, 0);

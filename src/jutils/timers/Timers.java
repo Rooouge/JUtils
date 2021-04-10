@@ -161,4 +161,31 @@ public class Timers {
 		
 		return timer;
 	}
+	
+	/*
+	 * Repeating tasks
+	 */
+	@Deprecated
+	public static void repeat(String timerName, long delay, long period, int times, TimerTask task) {
+		if(times > 0) {
+			new Thread(() -> {
+				try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				for(int i = 0; i < times; i++) {
+					task.run();
+					
+					try {
+						Thread.sleep(period);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		}
+	}
+	
 }

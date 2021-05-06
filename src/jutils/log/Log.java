@@ -38,6 +38,21 @@ public class Log {
 	}
 	
 	/**
+	 * Logs a new line on an instance of the specified LogLevel class
+	 * @param clazz the custom class to use to create a LogLevel object
+	 * @param msg the message to log
+	 */
+	public static void println(Class<? extends LogLevel> clazz, String msg) {
+		try {
+			LogLevel level = clazz.newInstance();
+			log(level.getStream(), level.getTag(), msg + "\n");
+		} catch (InstantiationException | IllegalAccessException e) {
+			Log.error("Failed to create a LogLevel instance from class " + clazz.getCanonicalName());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Logs on {@link LogLevel.INFO}
 	 * @param msg the message to log
 	 */

@@ -8,6 +8,7 @@ import com.restfb.types.GraphResponse;
 
 import jutils.log.Log;
 import jutils.log.LogLevel;
+import jutils.strings.Strings;
 
 public class Facebook {
 
@@ -23,7 +24,9 @@ public class Facebook {
 		this.token = token;
 		this.pageId = pageId;
 
-		Log.println(logLevelClass, "Initializing Facebook client with empty arguments");
+		Log.println(logLevelClass, "Initializing Facebook client");
+		Log.println(logLevelClass, "Token: " + token.substring(0, 3) + Strings.patternRepeating("*", token.length()-6) + token.substring(token.length()-3));
+		Log.println(logLevelClass, "PageId: " + pageId);
 		fbClient = new DefaultFacebookClient(token, Version.LATEST);
 	}
 	
@@ -43,6 +46,7 @@ public class Facebook {
 	
 	
 	public GraphResponse publishPost(String text) {
+		Log.println(logLevelClass, "Publishing feed post with message: '" + text + "'");
 		return fbClient.publish(
 				pageId + "/feed",
 				GraphResponse.class,

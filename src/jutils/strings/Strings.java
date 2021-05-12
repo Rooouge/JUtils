@@ -1,5 +1,7 @@
 package jutils.strings;
 
+import java.util.Formatter;
+
 public class Strings {
 
 	/**
@@ -36,4 +38,41 @@ public class Strings {
 		return s;
 	}
 	
+	/**
+	 * Returns a String represented by the unicode values of each character 
+	 * of the input string.
+	 * 
+	 * Es. unicode("ABC") returns "\u0041\u0042\u0043"
+	 * 
+	 * @param string the input string to convert
+	 * @return the unicode values of each character of the input string
+	 */
+	public static String unicode(String string) {
+		StringBuilder b = new StringBuilder(string.length());
+		
+		try (
+			Formatter f = new Formatter(b);
+		) {
+			for(char c : string.toCharArray()) {
+				f.format("\\u%04x", (int) c);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return b.toString();
+	}
+	
+	/**
+	 * Cut the given number of characters from the end of the string.
+	 * Equivalent of 
+	 * 		string.substring(0, string.length()-toCut)
+	 * 
+	 * @param string the input string
+	 * @param toCut how many characters to cut from the end
+	 * @return
+	 */
+	public static String cutLastChars(String string, int toCut) {
+		return string.substring(0, string.length()-toCut);
+	}
 }

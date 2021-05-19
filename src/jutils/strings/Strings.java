@@ -64,6 +64,47 @@ public class Strings {
 	}
 	
 	/**
+	 * <p>
+	 * Returns a String represented by the binary values of each character 
+	 * of the input string. The format specifies how the output string is 
+	 * formatted (REMEMBER TO PASS AN AVAILABLE FORMAT [%s & derived]).<br>
+	 * If the boolean results of {@link Strings.isVoid(format)} will be used the default format "%s".<br>
+	 * If the boolean results of {@link Strings.isVoid(separator)} will be used the default separator "".
+	 * </p>
+	 * <p>
+	 * Es.<br>
+	 * binary("ABC", null, "%8s") returns "010000010100001001000011"<br>
+	 * binary("ABC", "-", "%8s")  returns "01000001-01000010-01000011"<br>
+	 * binary("ABC", null, null)  returns "110001110010110011"<br>
+	 * binary("ABC", "-", null)   returns "110001-110010-110011"<br>
+	 * </p>
+	 * 
+	 * @param string the input string to convert
+	 * @param separator the character separating each value
+	 * @param format the format to use to print each value
+	 * @return a string with the binary values of each character of the input string in the given format
+	 */
+	public static String binary(String string, String separator, String format) {
+		if(Strings.isVoid(separator))
+			separator = "";
+		int toCut = separator.length();
+		
+		if(Strings.isVoid(format))
+			format = "%s";
+		
+		StringBuilder b = new StringBuilder(string.length());
+		
+		for(char c : string.toCharArray()) {
+			b.append(String.format(format, Integer.toBinaryString((int) c)).replace(" ", "0") + separator);
+		}
+		
+		String toReturn = b.toString();
+		toReturn = cutLastChars(toReturn, toCut);
+		
+		return toReturn;
+	}
+	
+	/**
 	 * Cut the given number of characters from the end of the string.
 	 * Equivalent of 
 	 * 		string.substring(0, string.length()-toCut)

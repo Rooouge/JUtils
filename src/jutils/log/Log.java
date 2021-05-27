@@ -4,6 +4,8 @@ import java.io.PrintStream;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import jutils.strings.Strings;
+
 public class Log {
 
 	
@@ -25,7 +27,7 @@ public class Log {
 	}
 	
 	private static String format(String tag, String msg) {
-		return timestamp() + " [" + tag + "]\t" + msg;
+		return timestamp() + " [" + tag + "]" + Strings.patternRepeating(" ", 6 - tag.length()) + "\t" + msg;
 	}
 	
 	/**

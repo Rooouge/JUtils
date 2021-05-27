@@ -41,8 +41,6 @@ public class Config {
 	}
 	
 	
-	
-	
 	private File searchFile(File appDir) {
 		File f = new File(appDir, appDir.getName() + ".config");
 		

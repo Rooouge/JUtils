@@ -188,4 +188,17 @@ public class Timers {
 		}
 	}
 	
+	/**
+	 * Creates a TimerTask object which executes the Runnable argument
+	 * @param runnable the object to convert
+	 * @return a TimerTask instance
+	 */
+	public static TimerTask convertRunnable(Runnable runnable) {
+		return new TimerTask() {
+			@Override
+			public void run() {
+				runnable.run();
+			}
+		};
+	}
 }

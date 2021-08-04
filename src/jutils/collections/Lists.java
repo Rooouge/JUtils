@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Lists {
 
-	public static <T> String listPrettyPrint(List<T> l) {
+	public static <T> String prettyPrint(List<T> l) {
 		String print = "{";
 		
 		for(int i = 0; i < l.size(); i++) {

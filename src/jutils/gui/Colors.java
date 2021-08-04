@@ -32,7 +32,7 @@ public class Colors {
 	
 	
 	public static String printRgb(Color c) {
-		return "RGB: " + Arrays.arrayPrettyPrint(Arrays.convertToWrapperArray(rgbIntColorComponents(c)));
+		return "RGB: " + Arrays.prettyPrint(Arrays.convertToWrapperArray(rgbIntColorComponents(c)));
 	}
 	
 	public static int[] rgbIntColorComponents(Color c) {

@@ -11,4 +11,23 @@ public class Utils {
 		Toolkit.getDefaultToolkit().beep();
 	}
 	
+	public static int minorEqualsMajor(int first, int second) {
+		if(first < second)
+			return 1;
+		
+		if(first > second)
+			return -1;
+		
+		return 0;
+	}
+	
+	public static int minorEqualMajor(double first, double second) {
+		if(first < second)
+			return 1;
+		
+		if(first > second)
+			return -1;
+		
+		return 0;
+	}
 }

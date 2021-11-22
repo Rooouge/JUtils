@@ -15,14 +15,13 @@ public class Log {
 	
 	static {
 		boolean logFileEnable = Boolean.parseBoolean(Config.getValue("log-file-enable"));
-		File file = new File(Config.getValue("log-file"));
-		
-		LogProperties.logFileEnable = logFileEnable;
-		LogProperties.logFile = file;
-		
-		try {
-			if(logFileEnable) {
-				
+		if(logFileEnable) {
+			File file = new File(Config.getValue("log-file"));
+			
+			LogProperties.logFileEnable = logFileEnable;
+			LogProperties.logFile = file;
+			
+			try {
 				if(file.exists()) {
 					if(file.isDirectory()) {
 						String systemName = getProjectName();
@@ -50,12 +49,11 @@ public class Log {
 				
 				system("File logging enabled");
 				system("Loggin to file: " + file.getAbsolutePath());
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			else {
-				system("File logging disabled");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else {
+			system("File logging disabled");
 		}
 	}
 	
@@ -109,9 +107,9 @@ public class Log {
 	 */
 	public static void println(Class<? extends LogLevel> clazz, String msg) {
 		try {
-			LogLevel level = clazz.newInstance();
+			LogLevel level = clazz.getDeclaredConstructor().newInstance();
 			log(level.getStream(), level.getTag(), msg + "\n");
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (Exception e) {
 			Log.error("Failed to create a LogLevel instance from class " + clazz.getCanonicalName());
 			e.printStackTrace();
 		}
@@ -147,6 +145,14 @@ public class Log {
 	 */
 	public static void database(String msg) {
 		println(LogLevel.DATABASE, msg);
+	}
+	
+	/**
+	 * Logs on {@link LogLevel.DATABASE}
+	 * @param msg the message to log
+	 */
+	public static void exception(Exception e) {
+		println(LogLevel.EXCEPTON, e.getLocalizedMessage());
 	}
 	
 }

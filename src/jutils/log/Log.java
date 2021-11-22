@@ -1,5 +1,6 @@
 package jutils.log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -152,20 +153,17 @@ public class Log {
 	 * @param msg the message to log
 	 */
 	public static void exception(Exception e) {
-		if(LogProperties.logFileEnable) {
-			println(LogLevel.EXCEPTON, e.getMessage() + " --- Full StackTrace in file");
+		try (
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			PrintStream ps = new PrintStream(baos);
+		) {
+			e.printStackTrace(ps);
 			
-			try (
-				PrintStream ps = new PrintStream(LogProperties.logFile)
-			) {
-				e.printStackTrace(ps);
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		} else {
-			e.printStackTrace();
+			if(LogProperties.logFileEnable)
+				println(LogLevel.EXCEPTON, baos.toString());
+		} catch (Exception e2) {
+			e2.printStackTrace();
 		}
-		
 	}
 	
 }

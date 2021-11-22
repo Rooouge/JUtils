@@ -148,11 +148,24 @@ public class Log {
 	}
 	
 	/**
-	 * Logs on {@link LogLevel.DATABASE}
+	 * Logs on {@link LogLevel.EXCEPTION}
 	 * @param msg the message to log
 	 */
 	public static void exception(Exception e) {
-		println(LogLevel.EXCEPTON, e.getLocalizedMessage());
+		if(LogProperties.logFileEnable) {
+			println(LogLevel.EXCEPTON, e.getMessage() + " --- Full StackTrace in file");
+			
+			try (
+				PrintStream ps = new PrintStream(LogProperties.logFile)
+			) {
+				e.printStackTrace(ps);
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		} else {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

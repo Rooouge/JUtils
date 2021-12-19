@@ -7,7 +7,8 @@ public class LogLevel {
 	public static final LogLevel INFO = new LogLevel("INFO", System.out);
 	public static final LogLevel SYSTEM = new LogLevel("SYSTEM", System.out);
 	public static final LogLevel ERROR = new LogLevel("ERROR", System.err);
-	public static final LogLevel DATABASE = new LogLevel("DATA", System.out);
+	public static final LogLevel DATABASE = new LogLevel("DB", System.out);
+	public static final LogLevel EXCEPTON = new LogLevel("EXC", System.err);
 	
 	
 	private String tag;

@@ -1,16 +1,78 @@
 package jutils.log;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 
+import jutils.config.Config;
 import jutils.strings.Strings;
 
 public class Log {
-
+	
+	static {
+		boolean logFileEnable = Boolean.parseBoolean(Config.getValue("log-file-enable"));
+		if(logFileEnable) {
+			File file = new File(Config.getValue("log-file"));
+			
+			LogProperties.logFileEnable = logFileEnable;
+			LogProperties.logFile = file;
+			
+			try {
+				if(file.exists()) {
+					if(file.isDirectory()) {
+						String systemName = getProjectName();
+						file = new File(file, systemName);
+					}
+				} else {
+					if(file.isDirectory()) {
+						if(!file.mkdirs())
+							throw new IOException("Failed to create log file: " + file.getAbsolutePath());
+						String systemName = getProjectName();
+						file = new File(file, systemName);
+					}
+				}
+				
+				if(!file.exists() && !file.createNewFile())
+					throw new IOException("Failed to create log file: " + file.getAbsolutePath());
+				
+				Logger logger = Logger.getLogger(file.getName());
+				FileHandler fh = new FileHandler(file.getAbsolutePath());
+				fh.setFormatter(new LogFileFormatter());
+				logger.addHandler(fh);
+				logger.setUseParentHandlers(false);
+				
+				LogProperties.logger = logger;
+				
+				system("File logging enabled");
+				system("Loggin to file: " + file.getAbsolutePath());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			system("File logging disabled");
+		}
+	}
+	
+	private static String getProjectName() {
+		String project = Config.getValue("project");
+		
+		if(project == null || project.trim().isEmpty())
+			project = new File(System.getProperty("user.dir")).getName();
+		
+		return project + ".log";
+	}
 	
 	private static void log(PrintStream stream, String tag, String msg) {
-		stream.print(format(tag, msg));
+		String log = format(tag, msg);
+		stream.print(log);
+		
+		if(LogProperties.logFileEnable && LogProperties.logger != null)
+			LogProperties.logger.info(log);
 	}
 	
 	private static String timestamp() {
@@ -46,9 +108,9 @@ public class Log {
 	 */
 	public static void println(Class<? extends LogLevel> clazz, String msg) {
 		try {
-			LogLevel level = clazz.newInstance();
+			LogLevel level = clazz.getDeclaredConstructor().newInstance();
 			log(level.getStream(), level.getTag(), msg + "\n");
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (Exception e) {
 			Log.error("Failed to create a LogLevel instance from class " + clazz.getCanonicalName());
 			e.printStackTrace();
 		}
@@ -84,6 +146,24 @@ public class Log {
 	 */
 	public static void database(String msg) {
 		println(LogLevel.DATABASE, msg);
+	}
+	
+	/**
+	 * Logs on {@link LogLevel.EXCEPTION}
+	 * @param msg the message to log
+	 */
+	public static void exception(Exception e) {
+		try (
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			PrintStream ps = new PrintStream(baos);
+		) {
+			e.printStackTrace(ps);
+			
+			if(LogProperties.logFileEnable)
+				println(LogLevel.EXCEPTON, baos.toString());
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
 	}
 	
 }

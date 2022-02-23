@@ -20,6 +20,10 @@ public class Global {
 		map.put(key, obj);
 	}
 	
+	public <T> T remove(String key, Class<T> clazz) {
+		return clazz.cast(map.remove(key));
+	}
+	
 	public <T> T get(String key, Class<T> clazz) {
 		return clazz.cast(map.get(key));
 	}

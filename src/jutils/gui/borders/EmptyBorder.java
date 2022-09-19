@@ -1,4 +1,4 @@
-package jutils.gui;
+package jutils.gui.borders;
 
 @SuppressWarnings("serial")
 public class EmptyBorder extends javax.swing.border.EmptyBorder {
